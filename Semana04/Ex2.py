@@ -9,6 +9,7 @@ class Paciente:
         self.idade = idade
         self.prioridade = prioridade
         self.proximo = None
+        self.anterior = None
 
 def menu():
 
@@ -80,6 +81,124 @@ def remover(lista, codigo_a_remover):
     print("Código não encontrado")
     return lista
 
+def encontrar(lista, codigo_a_encontrar):
+
+    aux = lista
+
+    if lista is None:
+    
+        print("Lista vazia")
+        return
+
+    while aux != None:
+
+        if aux.codigo == codigo_a_encontrar:
+
+            print(f"Paciente encontrado! Código: {aux.codigo}, Nome: {aux.nome}, Idade: {aux.idade}, Prioridade: {aux.prioridade}")
+            return
+
+        aux = aux.proximo
+
+    print("Código não encontrado")
+    return
+
+def chamar_paciente_urgente(lista):
+
+    aux = lista
+
+    if lista is None:
+        
+        print("Lista vazia")
+        return
+
+    nivel_urgencia = {
+
+        "Emergência": 5,
+        "Muito urgente": 4,
+        "Urgente": 3,
+        "Pouco urgente": 2,
+        "Não urgente": 1
+
+    }
+
+    maior_urgencia = None
+    maior_prioridade = 0
+
+    while aux != None:
+
+        if nivel_urgencia[aux.prioridade] > maior_prioridade:
+
+            maior_urgencia = aux
+            maior_prioridade = nivel_urgencia[aux.prioridade]
+
+        aux = aux.proximo
+
+    print(f"Paciente prioritário encontrado!, Código: {maior_urgencia.codigo}, Nome: {maior_urgencia.nome}, Idade: {maior_urgencia.idade}, Prioridade: {maior_urgencia.prioridade}")
+        
+def listar_primeiro_ultimo(lista):
+
+    aux = lista
+
+    while aux != None:
+
+        print(f"Código: {aux.codigo}, Nome: {aux.nome}, Idade: {aux.idade}, Prioridade: {aux.prioridade}")
+
+        aux = aux.proximo
+
+def listar_por_prioridade(lista):
+
+    if lista is None:
+            
+        print("Lista vazia")
+        return
+
+    nivel_urgencia = {
+    
+        "Emergência": 5,
+        "Muito urgente": 4,
+        "Urgente": 3,
+        "Pouco urgente": 2,
+        "Não urgente": 1
+    
+    }
+
+    for nivel_prioritário in range(5,0,-1):
+
+        aux = lista
+
+        while aux != None:
+
+            if nivel_urgencia[aux.prioridade] == nivel_prioritário:
+
+                print(f"Código: {aux.codigo}, Nome: {aux.nome}, Idade: {aux.idade}, Prioridade: {aux.prioridade}")
+
+            aux = aux.proximo
+
+def listar_ultimo_primeiro(lista):
+
+    aux = lista
+
+    while aux.proximo != None:
+
+        aux = aux.proximo
+
+    while aux != None:
+
+        print(f"Código: {aux.codigo}, Nome: {aux.nome}, Idade: {aux.idade}, Prioridade: {aux.prioridade}")
+        aux = aux.anterior
+
+def contabilizar_pacientes(lista):
+
+    aux = lista
+    contador = 0
+
+    while aux != None:
+
+        contador += 1
+        aux = aux.proximo
+
+    print(f"Há {contador} pacientes esperando atendimento")
+
 def main():
 
     lista = None
@@ -104,6 +223,27 @@ def main():
 
         elif opcao == 3:
 
-            pass
+            codigo_a_encontrar = int(input("Insira o código do paciente que deseja encontrar: "))
+            encontrar(lista, codigo_a_encontrar)
+
+        elif opcao == 4:
+
+            chamar_paciente_urgente(lista)
+
+        elif opcao == 5:
+
+            listar_primeiro_ultimo(lista)
+
+        elif opcao == 6:
+
+            listar_por_prioridade(lista)
+
+        elif opcao == 7:
+
+            listar_ultimo_primeiro(lista)
+
+        elif opcao == 8:
+
+            contabilizar_pacientes(lista)
 
 main()
